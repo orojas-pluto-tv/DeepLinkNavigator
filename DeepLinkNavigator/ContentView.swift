@@ -8,12 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var textInput: String = ""
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            TextField("Enter test URL:", text: $textInput)
+                .padding()
+            Button(action: {
+                if let url = URL(string: textInput) {
+                    UIApplication.shared.open(url, options: [:]) { success in
+                        if !success {
+                            print("Failed to open URL")
+                        }
+                    }
+                } else {
+                    print("Invalid URL format")
+                }
+            }, label: {
+                Text("Test URL")
+            })
         }
         .padding()
     }
